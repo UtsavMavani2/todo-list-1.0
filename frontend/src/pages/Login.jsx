@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import API from "../utils/axios";
+import { useAuth } from "../provider/authProvider";
 
 const LoginInitialValues = {
   email: "",
@@ -23,6 +24,7 @@ const LogInSchema = Yup.object().shape({
 
 const Login = () => {
   const navigate = useNavigate();
+  const { setToken } = useAuth();
 
   // const handleLogin = async (e) => {
   //   e.preventDefault();
@@ -47,9 +49,11 @@ const Login = () => {
       });
       console.log("LLLL", response);
 
-      localStorage.setItem("token", response.data.token);
+      // localStorage.setItem("token", response.data.token);
       toast.success(response?.data?.data?.msg || "Login successfully");
-      navigate("/dashboard");
+      // navigate("/dashboard");
+      setToken(response?.data?.token);
+      navigate("/", { replace: true });
     } catch (error) {
       // console.log("error.....", error);
       toast.error(error?.response?.data?.msg || "Login failed");
@@ -85,9 +89,8 @@ const Login = () => {
             <input
               type="text"
               placeholder="Email Address"
-              className={`border p-2 w-full ${
-                errors.email && touched.email ? "border-red-600" : ""
-              }`}
+              className={`border p-2 w-full ${errors.email && touched.email ? "border-red-600" : ""
+                }`}
               name="email"
               onChange={handleChange}
               onBlur={handleBlur}
@@ -99,9 +102,8 @@ const Login = () => {
             <input
               type="password"
               placeholder="Password"
-              className={`border p-2 w-full ${
-                errors.password && touched.password ? "border-red-600" : ""
-              }`}
+              className={`border p-2 w-full ${errors.password && touched.password ? "border-red-600" : ""
+                }`}
               name="password"
               onChange={handleChange}
               onBlur={handleBlur}
