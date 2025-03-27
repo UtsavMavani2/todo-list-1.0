@@ -4,6 +4,7 @@ import { ProtectedRoute } from "./ProtectedRoute";
 import Login from "../pages/Login";
 // import Logout from "../pages/Logout";
 import Dashboard from "../pages/Dashboard";
+import TodoList from "../components/second/TodoList";
 
 const Routes = () => {
   const { token } = useAuth();
@@ -29,6 +30,7 @@ const Routes = () => {
         {
           path: "",
           element: <Dashboard />,
+          // element: <TodoList />,
         },
         {
           path: "/profile",
